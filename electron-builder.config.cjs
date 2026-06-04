@@ -27,5 +27,11 @@ if (fs.existsSync(bundledEnv)) {
 /** @type {import('electron-builder').Configuration} */
 module.exports = {
   ...pkg.build,
+  // CI tự detect và cố publish → cần GH_TOKEN; tắt để chỉ build file .exe
+  publish: null,
+  win: {
+    ...pkg.build.win,
+    signAndEditExecutable: false,
+  },
   extraResources,
 };
