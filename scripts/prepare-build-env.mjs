@@ -74,6 +74,11 @@ if (!hasKey) {
     process.exit(1);
   }
   console.warn(`⚠️  ${msg} — installer sẽ không nhúng .env.`);
+  if (process.env.CI === "true") {
+    console.warn(
+      "   CI: Thêm repository secret GEMINI_API_KEY tại GitHub → Settings → Secrets and variables → Actions."
+    );
+  }
   process.exit(0);
 }
 

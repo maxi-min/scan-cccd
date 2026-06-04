@@ -100,4 +100,21 @@ git push origin v1.0.0
 
 CI sẽ build và đăng file lên **Releases**.
 
-Để CI nhúng API key: thêm repository secret **`GEMINI_API_KEY`** (tùy chọn **`APP_URL`**).
+### Thêm secret `GEMINI_API_KEY` trên GitHub
+
+1. Repo **maxi-min/scan-cccd** → **Settings** → **Secrets and variables** → **Actions**
+2. **Repository secrets** (không phải tab Environments, trừ khi bạn đã cấu hình `environment:` trong workflow)
+3. **New repository secret**
+   - **Name:** `GEMINI_API_KEY` (viết đúng, phân biệt hoa thường)
+   - **Secret:** dán API key từ [Google AI Studio](https://aistudio.google.com/apikey)
+4. **Actions** → **Build Windows** → **Run workflow** (chạy lại sau khi thêm secret)
+
+Log thành công ở bước **Prepare bundled .env**:
+
+```text
+✓ Đã tạo build-env/app.env — sẽ được đóng gói vào file cài đặt (.exe)
+```
+
+Bước **Check repository secret** sẽ hiện `GEMINI_API_KEY đã được cấu hình (độ dài: ... ký tự)`.
+
+**Nếu vẫn cảnh báo:** secret chưa tạo / tên sai / tạo nhầm Environment secret / PR từ fork (secret không dùng được). Build vẫn ra `.exe` nhưng không nhúng key — cấu hình `%APPDATA%\quet-cccd-google-sheets\.env` sau khi cài.

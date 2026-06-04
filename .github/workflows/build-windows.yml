@@ -37,6 +37,19 @@ jobs:
       - name: Build app (Vite + server)
         run: npm run build
 
+      - name: Check repository secret GEMINI_API_KEY
+        shell: pwsh
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:GEMINI_API_KEY)) {
+            Write-Warning "Secret GEMINI_API_KEY chưa có hoặc rỗng."
+            Write-Host "Hướng dẫn: repo Settings → Secrets and variables → Actions → New repository secret"
+            Write-Host "Name phải đúng: GEMINI_API_KEY (không phải Environment secret nếu workflow không khai báo environment)"
+          } else {
+            Write-Host "GEMINI_API_KEY đã được cấu hình (độ dài: $($env:GEMINI_API_KEY.Length) ký tự)."
+          }
+
       - name: Prepare bundled .env
         run: npm run prepare:env
         env:
