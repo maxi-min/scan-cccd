@@ -1,0 +1,80 @@
+{
+  "name": "quet-cccd-google-sheets",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Quét CCCD và lưu Google Sheets",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "tsx server.ts",
+    "build": "vite build && npm run build:server",
+    "build:server": "esbuild server.ts --bundle --platform=node --format=cjs --sourcemap --outfile=dist/server.cjs --external:vite --external:@vitejs/* --external:@tailwindcss/* --external:lightningcss",
+    "start": "NODE_ENV=production node dist/server.cjs",
+    "electron:dev": "npm run build && electron .",
+    "prepare:env": "node scripts/prepare-build-env.mjs",
+    "prepare:env:strict": "node scripts/prepare-build-env.mjs --strict",
+    "dist:win": "npm run build && npm run prepare:env && electron-builder --win --x64 --config electron-builder.config.cjs",
+    "dist:win:env": "npm run build && npm run prepare:env:strict && electron-builder --win --x64 --config electron-builder.config.cjs",
+    "dist:win:portable": "npm run build && npm run prepare:env && electron-builder --win portable --x64 --config electron-builder.config.cjs",
+    "dist:win:portable:env": "npm run build && npm run prepare:env:strict && electron-builder --win portable --x64 --config electron-builder.config.cjs",
+    "clean": "rm -rf dist release server.js",
+    "lint": "tsc --noEmit"
+  },
+  "build": {
+    "appId": "vn.cccd.scan-sheets",
+    "productName": "Quet CCCD Google Sheets",
+    "copyright": "Copyright © 2026",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "electron/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Quet CCCD Google Sheets"
+    }
+  },
+  "dependencies": {
+    "@google/genai": "^2.4.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^6.2.3",
+    "express": "^4.21.2",
+    "dotenv": "^17.2.3",
+    "motion": "^12.23.24"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "autoprefixer": "^10.4.21",
+    "electron": "^35.1.2",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3",
+    "@types/express": "^4.17.21"
+  }
+}

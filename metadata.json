@@ -1,0 +1,10 @@
+{
+  "name": "Quét CCCD và Lưu Google Sheets",
+  "description": "Ứng dụng quét thông tin Căn cước công dân (CCCD) qua ảnh/camera và tự động lưu vào Google Sheets.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
